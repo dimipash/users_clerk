@@ -14,7 +14,7 @@ This is a React application set up with Docker using Docker Compose. The applica
 1. **Clone the repository:**
 
    ```sh
-   git clone <https://github.com/dimipash/users_clerk>
+   git clone https://github.com/dimipash/users_clerk
    cd react_clerk
    ```
 
