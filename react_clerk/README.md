@@ -26,6 +26,22 @@ This is a React application set up with Docker using Docker Compose. The applica
 
    This command will build and start the React application using the Docker Compose configuration specified in `compose.yaml`.
 
+## Project Structure
+
+The project has the following structure:
+
+```
+users_clerk/
+  ├── compose.yaml
+  └── react_clerk/
+        ├── public/
+        ├── src/
+        ├── .gitignore
+        ├── package.json
+        ├── README.md
+        └── ... other files
+```
+
 ## Docker Configuration
 
 The `compose.yaml` file defines a single service for the React application:
@@ -34,7 +50,7 @@ The `compose.yaml` file defines a single service for the React application:
 - **Image:** `node:lts-slim`
 - **Volume:** Maps the local `react_clerk` directory to `/app` in the container
 - **Working Directory:** `/app`
-- **Command:** `sh -c "echo 'hello world'"`
+- **Command:** `sh -c "npm run dev -- --host"
 
 ## Development
 
@@ -43,4 +59,3 @@ For development, you can modify the `compose.yaml` file to use a different comma
 ```yaml
 command: sh -c "npm install && npm run dev"
 ```
-
