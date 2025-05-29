@@ -2,6 +2,6 @@ services:
     react_app:
         image: node:lts-slim
         volumes:
-            - ./:/app
+            - ./react_clerk:/app
         working_dir: /app
         command: sh -c "echo 'hello world'"
