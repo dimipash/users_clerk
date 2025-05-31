@@ -1,11 +1,32 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import Navbar from "./Navbar";
+import { useAuth } from "@clerk/clerk-react";
 
 function App() {
     const [count, setCount] = useState(0);
+    const {user} = useUser();
+    const { userId, getToken } = useAuth();
+
+    const handleSendUserDataToTheBackend = useCallback(async () => {
+        const token = await getToken();
+        const requestHeaders = {            
+            Authorization: `Bearer ${token}`,
+        };
+        console.log(user, userId);
+        const response = await fetch("http://localhost:8888/api/hello/", {
+            headers: requestHeaders,
+        });
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+        } else {
+            const text = await response.text();
+            console.log(text);
+        }
+    }, [user, userId, getToken]);
 
     return (
         <>
@@ -23,6 +44,7 @@ function App() {
                 </a>
             </div>
             <h1>Vite + React</h1>
+            <button onClick={handleSendUserDataToTheBackend}>Trigger Backend</button>
             <div className="card">
                 <button onClick={() => setCount((count) => count + 1)}>
                     count is {count}
