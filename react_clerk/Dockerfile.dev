@@ -1,0 +1,9 @@
+FROM node:lts-slim
+
+RUN npm install npm -g
+COPY . /app
+
+WORKDIR /app
+RUN npm install
+
+CMD ["npm", "run", "dev", "--", "--host"]
