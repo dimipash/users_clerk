@@ -20,6 +20,8 @@ def get_clerk_user_id_from_request(request):
         AuthenticateRequestOptions(authorized_parties=["http://localhost:3002"]),
     )
     payload = request_state.payload
+    if payload is None:
+        return None
     clerk_user_id = payload.get("sub")
     print(clerk_user_id, request_state.is_signed_in)
     if not request_state.is_signed_in:
