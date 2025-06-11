@@ -1,37 +1,65 @@
 services:
-    django_app:        
+    django_app:
         build:
             context: ./django_clerk
             dockerfile: Dockerfile.dev
         volumes:
-            - ./django_clerk/src:/app           
+            - ./django_clerk/src:/app
         env_file:
             - .env.backend.local
         ports:
             - 8888:8888
         develop:
-            watch: 
+            watch:
                 - action: rebuild
                   path: django_clerk/Dockerfile.dev
                 - action: rebuild
                   path: django_clerk/requirements.txt
 
-    fastapi_app:        
+    fastapi_app:
         build:
             context: ./fastapi_clerk
             dockerfile: Dockerfile.dev
         volumes:
-            - ./fastapi_clerk/src:/app           
+            - ./fastapi_clerk/src:/app
         env_file:
             - .env.backend.local
         ports:
             - 8002:8002
         develop:
-            watch: 
+            watch:
                 - action: rebuild
                   path: fastapi_clerk/Dockerfile.dev
                 - action: rebuild
-                  path: fastapi_clerk/requirements.txt                  
+                  path: fastapi_clerk/requirements.txt
+
+    nextjs_app:
+        build:
+            context: ./nextjs_clerk
+            dockerfile: Dockerfile.dev
+        # image: node:lts-slim
+        volumes:
+            - ./nextjs_clerk/public:/app/public
+            - .nextjs_clerk/src:/app/src
+            - .nextjs_clerk/jsconfig.json:/app/jsconfig.json
+            - ./nextjs_clerk/jsconfig.json:/app/jsconfig.json
+            - ./nextjs_clerk/next.config.mjs:/app/next.config.mjs
+            - ./nextjs_clerk/postcss.config.mjs:/app/postcss.config.mjs
+        working_dir: /app
+        env_file:
+            - .env
+        ports:
+            - 3000:3000
+        environment:
+            - NODE_ENV=development
+            - HOST=0.0.0.0
+        develop:
+            watch:
+                - action: rebuild
+                  path: nextjs_clerk/Dockerfile.dev
+                - action: rebuild
+                  path: nextjs_clerk/package.json
+
     react_app:
         # image: node:lts-slim
         build:
@@ -48,7 +76,7 @@ services:
         # working_dir: /app
         # command: sh -c "npm run dev -- --host"
         develop:
-            watch: 
+            watch:
                 - action: rebuild
                   path: react_clerk\vite.config.js
                 - action: rebuild
